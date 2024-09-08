@@ -1,9 +1,11 @@
 import "dotenv/config";
 import express from "express";
-import router from "./infrastructures/routes/index.js";
+import router from "./interfaces/routes/index.js";
 import cors from "cors";
+import swagger from "swagger-ui-express";
+import swaggerDocument from "../eigen-swagger.json" assert { type: "json" };
 const app = express();
-
+app.use("/api-docs", swagger.serve, swagger.setup(swaggerDocument));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 

@@ -1,5 +1,5 @@
 import MemberService from "../src/applications/member/memberServices";
-import MemberRepository from "../src/domains/member/MemberRepository";
+import MemberRepository from "../src/infrastructures/repositories/MemberRepository";
 import MemberController from "../src/interfaces/controllers/memberController";
 import jest from "jest-mock";
 

@@ -5,15 +5,15 @@
   "main": "src/server.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "nodemon --no-warnings src/server.js ",
     "build": "node src/server.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --detectOpenHandles"
   },
   "author": "Yusuf Trihartono",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "latest",
     "jest": "latest",
+    "nodemon": "latest",
     "supertest": "latest"
   },
   "dependencies": {

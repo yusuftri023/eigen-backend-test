@@ -1,9 +1,10 @@
-import BookService from "../src/applications/book/bookServices";
-import BookRepository from "../src/domains/book/BookRepository";
-import BookController from "../src/interfaces/controllers/bookController";
-
 import jest from "jest-mock";
-const bookRepository = new BookRepository();
+
+import PostgreBookRepository from "../src/infrastructures/repositories/PostgreBookRepository";
+import BookService from "../src/applications/bookServices";
+import BookController from "../src/interfaces/controllers/bookController";
+import { knexConnection } from "../src/infrastructures/database/config";
+const bookRepository = new PostgreBookRepository();
 const bookService = new BookService(bookRepository);
 const bookController = new BookController(bookService);
 

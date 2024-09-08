@@ -2,30 +2,31 @@ import { knexConnection } from "../../infrastructures/database/config.js";
 
 export default class MemberRepository {
   async findAll() {
-    const result = await knexConnection.from("member").select("*");
-    return result;
+    throw new Error(
+      "Terjadi Polymorphism, implementasi method ini di child class"
+    );
   }
 
   async findByCode(code) {
-    const result = await knexConnection.from("member").select("*").where({
-      code,
-    });
-    return result;
+    throw new Error(
+      "Terjadi Polymorphism, implementasi method ini di child class"
+    );
   }
 
   async save(member) {
-    await knexConnection.from("member").insert(member);
-    return true;
+    throw new Error(
+      "Terjadi Polymorphism, implementasi method ini di child class"
+    );
   }
   async edit(code, member) {
-    await knexConnection
-      .from("member")
-      .upsert({ code }, ["code"])
-      .where({ code });
-    return true;
+    throw new Error(
+      "Terjadi Polymorphism, implementasi method ini di child class"
+    );
   }
+
   async remove(code) {
-    await knexConnection.from("member").where({ code }).delete();
-    return true;
+    throw new Error(
+      "Terjadi Polymorphism, implementasi method ini di child class"
+    );
   }
 }

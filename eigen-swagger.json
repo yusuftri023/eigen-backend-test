@@ -1,0 +1,620 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Eigen Backend Test",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8080"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Books",
+      "description": "Books data operations"
+    },
+    {
+      "name": "Member Books",
+      "description": "Member book to access denormalized data of Member and Book Entity"
+    },
+    {
+      "name": "Members",
+      "description": "Members data operations"
+    }
+  ],
+  "paths": {
+    "/books": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "get all books in database",
+        "operationId": "getAllBooks",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Book list fetched successfully"
+                    },
+                    "books": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "example": "B001"
+                          },
+                          "title": {
+                            "type": "string",
+                            "example": "Pocahontas"
+                          },
+                          "author": {
+                            "type": "string",
+                            "example": "John Smith"
+                          },
+                          "stock": {
+                            "type": "number",
+                            "example": 5
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Books"],
+        "summary": "saveBook",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "code": "B009",
+                  "title": "Testing Book",
+                  "author": "Yusuf",
+                  "stock": 10
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad request response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "409": {
+            "description": "Conflict response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Books"],
+        "summary": "updateBook",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "code": "B009",
+                  "title": "Testing Book",
+                  "author": "Haha",
+                  "stock": 10
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad request response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Error Not Found response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/books/available": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "getAllAvailableBooks",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Available book list fetched successfully"
+                    },
+                    "book": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "B001"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "Pocahontas"
+                        },
+                        "author": {
+                          "type": "string",
+                          "example": "John Smith"
+                        },
+                        "stock": {
+                          "type": "number",
+                          "example": 5
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/books/{bookCode}": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "getBook",
+        "parameters": [
+          {
+            "name": "bookCode",
+            "in": "path",
+            "description": "book code",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Error Not Found response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Books"],
+        "summary": "deleteBook",
+        "parameters": [
+          {
+            "name": "bookCode",
+            "in": "path",
+            "description": "book code",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Error Not Found response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/member-book/{memberCode}": {
+      "get": {
+        "tags": ["Member Books"],
+        "summary": "getMemberAllBooks",
+        "parameters": [
+          {
+            "name": "memberCode",
+            "in": "path",
+            "description": "member code",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Error Not Found response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/member-book/borrow": {
+      "post": {
+        "tags": ["Member Books"],
+        "summary": "borrowBook",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "book_code": "B007",
+                  "member_code": "M001"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad request response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Error Not Found response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "403": {
+            "description": "Forbidden response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/member-book/return": {
+      "patch": {
+        "tags": ["Member Books"],
+        "summary": "returnBook",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "book_code": "B0099",
+                  "member_code": "M003"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad request response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Error Not Found response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "403": {
+            "description": "Forbidden response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/members": {
+      "get": {
+        "tags": ["Members"],
+        "summary": "getAllMembers",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Members"],
+        "summary": "createMember",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "Tangerine"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad request response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Members"],
+        "summary": "updateMember",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "Naha",
+                  "code": "M007",
+                  "is_penalized": true
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Error Not Found response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "400": {
+            "description": "Bad request response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/members/{memberCode}": {
+      "get": {
+        "tags": ["Members"],
+        "summary": "getMember",
+        "parameters": [
+          {
+            "name": "memberCode",
+            "in": "path",
+            "description": "member code",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Error Not Found response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Members"],
+        "summary": "deleteMember",
+        "parameters": [
+          {
+            "name": "memberCode",
+            "in": "path",
+            "description": "member code",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Error Not Found response",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Internal server error response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
