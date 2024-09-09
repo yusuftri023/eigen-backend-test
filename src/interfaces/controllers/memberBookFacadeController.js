@@ -37,15 +37,15 @@ class MemberBookFacadeController {
   }
   async borrowBook(req, res) {
     try {
-      const { member_code, book_code } = req.body;
-      if (!member_code || !book_code) {
+      const { memberCode, bookCode } = req.body;
+      if (!memberCode || !bookCode) {
         return res.status(400).json({
           status: "failed",
           message: "Your request is not complete or invalid",
         });
       }
       const member = await this.memberBookFacadeService.getMemberByCode(
-        member_code
+        memberCode
       );
       if (!member) {
         return res.status(404).json({
@@ -59,7 +59,7 @@ class MemberBookFacadeController {
           message: "Member is currently penalized and cannot borrow books",
         });
       }
-      const book = await this.memberBookFacadeService.getBookByCode(book_code);
+      const book = await this.memberBookFacadeService.getBookByCode(bookCode);
       if (!book) {
         return res.status(404).json({
           status: "failed",
@@ -68,7 +68,7 @@ class MemberBookFacadeController {
       }
       const memberCurrentBorrowedBooks =
         await this.memberBookFacadeService.getMemberCurrentBooksByCode(
-          member_code
+          memberCode
         );
       if (memberCurrentBorrowedBooks.length >= 2) {
         return res.status(403).json({
@@ -77,7 +77,7 @@ class MemberBookFacadeController {
         });
       }
       const stock = await this.memberBookFacadeService.getBookStockByCode(
-        book_code
+        bookCode
       );
       if (stock < 1) {
         return res.status(403).json({
@@ -85,10 +85,7 @@ class MemberBookFacadeController {
           message: "Book is out of stock",
         });
       }
-      await this.memberBookFacadeService.memberBorrowBook(
-        member_code,
-        book_code
-      );
+      await this.memberBookFacadeService.memberBorrowBook(memberCode, bookCode);
       return res.status(201).json({
         status: "success",
         message: "Member successfully borrowed the book",
@@ -102,15 +99,15 @@ class MemberBookFacadeController {
   }
   async returnBook(req, res) {
     try {
-      const { member_code, book_code } = req.body;
-      if (!member_code || !book_code) {
+      const { memberCode, bookCode } = req.body;
+      if (!memberCode || !bookCode) {
         return res.status(400).json({
           status: "failed",
           message: "Your request is not complete or invalid",
         });
       }
       const member = await this.memberBookFacadeService.getMemberByCode(
-        member_code
+        memberCode
       );
       if (!member) {
         return res.status(404).json({
@@ -118,7 +115,7 @@ class MemberBookFacadeController {
           message: "no member entry with this code",
         });
       }
-      const book = await this.memberBookFacadeService.getBookByCode(book_code);
+      const book = await this.memberBookFacadeService.getBookByCode(bookCode);
       if (!book) {
         return res.status(404).json({
           status: "failed",
@@ -127,10 +124,10 @@ class MemberBookFacadeController {
       }
       const memberCurrentBorrowedBooks =
         await this.memberBookFacadeService.getMemberCurrentBooksByCode(
-          member_code
+          memberCode
         );
       const isReturnedBookCorrect = memberCurrentBorrowedBooks.some((entry) => {
-        return entry.book_code === book_code;
+        return entry.book_code === bookCode;
       });
       if (!isReturnedBookCorrect) {
         return res.status(403).json({
@@ -138,10 +135,7 @@ class MemberBookFacadeController {
           message: "Member returned a book that he did not borrow",
         });
       }
-      await this.memberBookFacadeService.memberReturnBook(
-        member_code,
-        book_code
-      );
+      await this.memberBookFacadeService.memberReturnBook(memberCode, bookCode);
       return res.status(200).json({
         status: "success",
         message: "Member has returned the book",

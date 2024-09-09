@@ -34,6 +34,7 @@ class BookController {
           books: [],
         });
       }
+
       return res.status(200).json({
         status: "success",
         message: "Available book list fetched successfully",
@@ -49,7 +50,14 @@ class BookController {
 
   async getBook(req, res) {
     try {
-      const book = await this.bookService.getBookByCode(req.params.code);
+      const { bookCode } = req.params;
+      if (bookCode === undefined) {
+        return res.status(400).json({
+          status: "failed",
+          message: "Your request is not complete or invalid",
+        });
+      }
+      const book = await this.bookService.getBookByCode(bookCode);
       if (!book) {
         return res.status(404).json({
           status: "failed",
@@ -58,7 +66,7 @@ class BookController {
       }
       return res.status(200).json({
         status: "success",
-        message: "Book list fetched successfully",
+        message: "Book fetched successfully",
         book,
       });
     } catch (error) {

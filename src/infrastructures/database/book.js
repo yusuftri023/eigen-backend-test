@@ -19,20 +19,25 @@ export default async function bookSchema() {
           });
         const seedConfig = [
           {
-            code: "B001",
+            code: "HP-1",
             title: "Harry Potter",
             author: "Harry the wizard",
             stock: 3,
           },
           {
-            code: "B002",
+            code: "CDR-2",
             title: "Cinderella",
             author: "Step Mother",
             stock: 3,
           },
-          { code: "B003", title: "Pocahontas", author: "John Smith", stock: 3 },
           {
-            code: "B004",
+            code: "PCH-3",
+            title: "Pocahontas",
+            author: "John Smith",
+            stock: 3,
+          },
+          {
+            code: "STR-4",
             title: "Starwars",
             author: "Luke Skywalker",
             stock: 3,

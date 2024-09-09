@@ -35,8 +35,8 @@ class MemberController {
           message: "no member entry with this code",
         });
       }
-      return res.json({
-        status: 200,
+      return res.status(200).json({
+        status: "success",
         message: "Member's data fetched successfully",
         member,
       });
@@ -100,6 +100,8 @@ class MemberController {
       });
     }
   }
+
+  // can only delete when no books borrowed
   async deleteMember(req, res) {
     try {
       const { memberCode } = req.params;
@@ -119,7 +121,7 @@ class MemberController {
       await this.memberService.deleteMemberByCode(memberCode);
       return res.status(200).json({
         status: "success",
-        message: "Member removed successfully",
+        message: "Member's data removed successfully",
       });
     } catch (error) {
       return res.status(500).json({
